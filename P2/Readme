@@ -1,0 +1,17 @@
+Compilation Instructions:
+------------------------
+To compile the program, use the following command:
+
+    g++ -std=c++17 -pthread -o unique_numbers unique_numbers.cpp
+
+Run the program with:
+
+    ./unique_numbers
+
+Ensure you have a file named `numbers.txt` containing integer values separated by spaces or newlines.
+
+README:
+-------
+This program reads a large file containing integers and extracts unique numbers using multiple threads.
+Each thread processes a separate portion of the file and inserts unique values into a global set.
+At the end, the program prints the unique numbers found.
