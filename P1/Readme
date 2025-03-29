@@ -1,0 +1,26 @@
+Compilation Instructions:
+-------------------------
+To compile the program, use the following g++ command:
+
+g++ -std=c++17 -o lru_cache LRUCache.cpp main.cpp
+
+To run the program:
+
+    ./lru_cache
+
+README:
+-------
+This program implements an LRU (Least Recently Used) cache for storing file information, such as:
+- File path
+- Timestamp when it was opened
+- Metadata (size, inode, etc.) retrieved using `stat()`
+
+Features:
+- Insert new file records into the cache.
+- Retrieve file records using the file path.
+- Remove least recently used items when the cache reaches capacity.
+- Cleanup mechanism to remove old entries beyond a specified expiry time.
+
+Example Usage:
+--------------
+The `main()` function demonstrates usage by adding, accessing, and cleaning up files.
