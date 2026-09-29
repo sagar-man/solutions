@@ -350,6 +350,11 @@ subscriptions. Use Google Play Billing; RevenueCat if you plan on iOS later.
 
 ## Appendix A — Manifest skeleton
 
+> The sketches below are the shape of the thing. The working versions live in
+> this folder's Android project — see [`README.md`](README.md). Where the two
+> differ, the code is right.
+
+
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FocusBlocker</string>
+    <string name="accessibility_service_label">FocusBlocker app blocking</string>
+    <string name="accessibility_service_description">FocusBlocker needs to know which app is on screen so it can block the apps you chose to stay away from. It reads only the package name of the app in the foreground. Nothing you type, see, or tap is read, stored, or sent anywhere — all data stays on this device.</string>
+</resources>
