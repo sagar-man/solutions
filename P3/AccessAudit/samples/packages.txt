@@ -1,0 +1,107 @@
+Packages:
+  Package [com.android.settings] (6d1a3f2):
+    userId=1000
+    codePath=/system/priv-app/Settings
+    versionCode=34 minSdk=34 targetSdk=34
+    versionName=14
+    flags=[ SYSTEM HAS_CODE ALLOW_BACKUP ]
+    installerPackageName=null
+    firstInstallTime=2024-01-01 00:00:00
+    lastUpdateTime=2024-01-01 00:00:00
+    requested permissions:
+      android.permission.INTERNET
+      android.permission.WRITE_SECURE_SETTINGS
+
+  Package [com.example.notes] (aa11bb2):
+    userId=10201
+    codePath=/data/app/~~kQ9==/com.example.notes-1A==
+    versionCode=88 minSdk=26 targetSdk=34
+    versionName=3.4.1
+    flags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ]
+    installerPackageName=com.android.vending
+    firstInstallTime=2025-03-02 09:15:00
+    lastUpdateTime=2025-08-14 11:02:00
+    requested permissions:
+      android.permission.INTERNET
+      android.permission.POST_NOTIFICATIONS
+    install permissions:
+      android.permission.INTERNET: granted=true
+    User 0: ceDataInode=131072 installed=true hidden=false
+      runtime permissions:
+        android.permission.POST_NOTIFICATIONS: granted=true, flags=[ USER_SET ]
+
+  Package [com.example.photoeditor] (cc33dd4):
+    userId=10233
+    codePath=/data/app/~~zX1==/com.example.photoeditor-9B==
+    versionCode=1204 minSdk=24 targetSdk=33
+    versionName=7.2.0
+    flags=[ HAS_CODE ALLOW_BACKUP ]
+    installerPackageName=com.android.vending
+    firstInstallTime=2024-11-20 18:40:00
+    lastUpdateTime=2025-09-01 07:12:00
+    requested permissions:
+      android.permission.INTERNET
+      android.permission.CAMERA
+      android.permission.READ_MEDIA_IMAGES
+      android.permission.ACCESS_COARSE_LOCATION
+    install permissions:
+      android.permission.INTERNET: granted=true
+    User 0: ceDataInode=131073 installed=true hidden=false
+      runtime permissions:
+        android.permission.CAMERA: granted=true, flags=[ USER_SET ]
+        android.permission.READ_MEDIA_IMAGES: granted=true, flags=[ USER_SET ]
+        android.permission.ACCESS_COARSE_LOCATION: granted=false, flags=[ ]
+
+  Package [com.freetorch.bright] (ee55ff6):
+    userId=10288
+    codePath=/data/app/~~pL7==/com.freetorch.bright-3C==
+    versionCode=9 minSdk=21 targetSdk=28
+    versionName=1.0.9
+    flags=[ DEBUGGABLE HAS_CODE ALLOW_BACKUP ]
+    installerPackageName=null
+    firstInstallTime=2025-09-25 23:41:00
+    lastUpdateTime=2025-09-25 23:41:00
+    requested permissions:
+      android.permission.INTERNET
+      android.permission.READ_SMS
+      android.permission.RECEIVE_SMS
+      android.permission.READ_CONTACTS
+      android.permission.ACCESS_FINE_LOCATION
+      android.permission.RECORD_AUDIO
+      android.permission.MANAGE_EXTERNAL_STORAGE
+      android.permission.SYSTEM_ALERT_WINDOW
+      android.permission.REQUEST_INSTALL_PACKAGES
+      android.permission.QUERY_ALL_PACKAGES
+      android.permission.RECEIVE_BOOT_COMPLETED
+    install permissions:
+      android.permission.INTERNET: granted=true
+      android.permission.SYSTEM_ALERT_WINDOW: granted=true
+      android.permission.REQUEST_INSTALL_PACKAGES: granted=true
+      android.permission.QUERY_ALL_PACKAGES: granted=true
+      android.permission.MANAGE_EXTERNAL_STORAGE: granted=true
+      android.permission.RECEIVE_BOOT_COMPLETED: granted=true
+    User 0: ceDataInode=131074 installed=true hidden=false
+      runtime permissions:
+        android.permission.READ_SMS: granted=true, flags=[ USER_SET ]
+        android.permission.RECEIVE_SMS: granted=true, flags=[ USER_SET ]
+        android.permission.READ_CONTACTS: granted=true, flags=[ USER_SET ]
+        android.permission.ACCESS_FINE_LOCATION: granted=true, flags=[ USER_SET ]
+        android.permission.RECORD_AUDIO: granted=true, flags=[ USER_SET ]
+
+  Package [com.example.weather] (11aa22b):
+    userId=10245
+    codePath=/data/app/~~mN4==/com.example.weather-5D==
+    versionCode=310 minSdk=26 targetSdk=34
+    versionName=5.1.0
+    flags=[ HAS_CODE ]
+    installerPackageName=com.android.vending
+    firstInstallTime=2025-01-05 12:00:00
+    lastUpdateTime=2025-07-19 08:30:00
+    requested permissions:
+      android.permission.INTERNET
+      android.permission.ACCESS_FINE_LOCATION
+    install permissions:
+      android.permission.INTERNET: granted=true
+    User 0: ceDataInode=131075 installed=true hidden=false
+      runtime permissions:
+        android.permission.ACCESS_FINE_LOCATION: granted=true, flags=[ USER_SET ]

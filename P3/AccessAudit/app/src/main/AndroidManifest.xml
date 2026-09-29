@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+      Reading other apps' access history needs permissions that a normal app
+      cannot simply hold. Each one below is declared with a note on how it is
+      actually obtained, because on a stock unrooted device most of them are NOT
+      granted just by declaring them. See the Readme's "Collector tiers".
+    -->
+
+    <!-- Tier 0: enumerate installed packages and their declared permissions.
+         Normal permission, granted at install. -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- Tier 1: per-app foreground time, used to tell "you opened it" from
+         "it ran on its own". The user grants this in
+         Settings > Special app access > Usage access. -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Tier 2: the actual per-app access log. This is signature|privileged, so
+         declaring it is not enough - it must be granted from a shell:
+           adb shell pm grant dev.accessaudit.app android.permission.GET_APP_OPS_STATS
+         or through Shizuku, which runs that grant for you. -->
+    <uses-permission android:name="android.permission.GET_APP_OPS_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Needed to read the platform's own logs on a rooted device (Tier 3). -->
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Periodic background scans keep a history longer than the ~24h the
+         platform itself retains. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!--
+      Deliberately NOT requested: INTERNET. This app has no reason to send your
+      access history anywhere, and the absence of the permission is the only
+      proof of that a user can actually check.
+    -->
+
+    <application
+        android:name=".AccessAuditApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AccessAudit">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Exports go out through a content URI, only when the user taps share. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.reports"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:multiprocess="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    </application>
+</manifest>

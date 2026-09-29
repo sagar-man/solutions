@@ -1,0 +1,57 @@
+Current AppOps Service state:
+  Uid mode state:
+    com.example.notes: LEGACY_STORAGE=ignore
+
+  Uid 10201:
+    state=cch
+    Package com.example.notes:
+      POST_NOTIFICATION (allow):
+        Access: [fg-s]2025-09-29 08:10:00.000 (-4h2m)
+
+  Uid 10233:
+    state=fg
+    capability=NONE
+    Package com.example.photoeditor:
+      CAMERA (allow):
+        Access: [fg-tp]2025-09-29 11:40:00.000 (-32m) duration=+42s
+        Access: [fg-tp]2025-09-28 19:05:00.000 (-17h7m) duration=+1m10s
+      READ_MEDIA_IMAGES (allow):
+        Access: [fg-tp]2025-09-29 11:39:00.000 (-33m)
+        Access: [fg-tp]2025-09-29 11:38:00.000 (-34m)
+      COARSE_LOCATION (ignore):
+        Reject: [fg-tp]2025-09-29 11:39:30.000 (-32m30s)
+
+  Uid 10245:
+    state=bg
+    Package com.example.weather:
+      FINE_LOCATION (allow):
+        Access: [fg-tp]2025-09-29 09:00:00.000 (-3h12m)
+        Access: [bg-t]2025-09-29 06:00:00.000 (-6h12m)
+        Access: [bg-t]2025-09-29 03:00:00.000 (-9h12m)
+
+  Uid 10288:
+    state=bg
+    capability=NONE
+    Package com.freetorch.bright:
+      READ_SMS (allow):
+        Access: [bg-t]2025-09-29 12:00:00.000 (-12m)
+        Access: [bg-t]2025-09-29 10:00:00.000 (-2h12m)
+        Access: [bg-t]2025-09-29 08:00:00.000 (-4h12m)
+        Access: [bg-t]2025-09-29 06:00:00.000 (-6h12m)
+        Access: [bg-t]2025-09-29 04:00:00.000 (-8h12m)
+      RECORD_AUDIO (allow):
+        Access: [bg-t]2025-09-29 11:00:00.000 (-1h12m) duration=+5m0s
+        Access: [bg-t]2025-09-29 05:00:00.000 (-7h12m) duration=+4m30s
+      FINE_LOCATION (allow):
+        Access: [bg-t]2025-09-29 12:05:00.000 (-7m)
+        Access: [bg-t]2025-09-29 11:35:00.000 (-37m)
+        Access: [bg-t]2025-09-29 11:05:00.000 (-1h7m)
+        Access: [bg-t]2025-09-29 10:35:00.000 (-1h37m)
+        Access: [bg-t]2025-09-29 10:05:00.000 (-2h7m)
+      READ_CONTACTS (allow):
+        Access: [bg-t]2025-09-29 04:05:00.000 (-8h7m)
+        Access: [bg-t]2025-09-28 22:05:00.000 (-14h7m)
+      MANAGE_EXTERNAL_STORAGE (allow):
+        Access: [bg-t]2025-09-29 04:06:00.000 (-8h6m)
+      SYSTEM_ALERT_WINDOW (allow):
+        Access: [bg-t]2025-09-29 12:10:00.000 (-2m)

@@ -1,0 +1,211 @@
+Compilation Instructions:
+-------------------------
+The analysis engine and the host-side CLI are plain JVM modules and need only a
+JDK 17+:
+
+    cd AccessAudit
+    ./gradlew :core:test          # 79 unit tests over the parsers and rules
+    ./gradlew :cli:installDist    # builds cli/build/install/access-audit/bin/access-audit
+
+The Android app additionally needs the Android SDK. The `:app` module is only
+included in the build when an SDK is found (via ANDROID_HOME, ANDROID_SDK_ROOT,
+or sdk.dir in local.properties), so the two commands above work on a bare JDK:
+
+    ./gradlew :app:assembleDebug
+    adb install app/build/outputs/apk/debug/app-debug.apk
+
+Try it without a device:
+
+    ./cli/build/install/access-audit/bin/access-audit \
+        --dir samples --sdk 34 --now-ms 1759147920000
+
+Capture from a real device and analyse it:
+
+    tools/adb-access-audit.sh -o capture
+    ./cli/build/install/access-audit/bin/access-audit --dir capture --sdk 34
+
+
+README:
+-------
+Access Audit logs which app on the phone used which access - read, write,
+execute, camera, microphone, location, contacts, SMS - when it did so, whether
+the app was visible at the time, and flags the combinations that are worth a
+developer's attention.
+
+
+READ THIS FIRST: what Android actually permits
+----------------------------------------------
+No app on a stock, unrooted Android device can observe another app's file reads
+and writes. There is no API for it, and there is no permission that grants it.
+Any app claiming to show you a live read/write/execute log of other apps is
+either running with system privileges, requires root, or is lying.
+
+What the platform does keep is a log of *privileged operations* - the "appops"
+history behind the Android 12+ Privacy Dashboard. For each app and each
+operation it records the last accesses, whether each happened in the foreground
+or the background, and how long the app held it. That log is the core of this
+tool. Reading it requires GET_APP_OPS_STATS, which is signature|privileged, so
+it has to be granted from a shell.
+
+So "read / write / execute" in this app means the *capability class of the
+platform operation an app invoked*, not a raw file mode. `core/ops/OpCatalog.kt`
+is the table that maps each operation onto a class, and the UI never labels a
+static permission as an observed access.
+
+Collector tiers
+---------------
+Each source of data is a separate collector, and the app shows which are live.
+That is deliberate: the difference between "this app used your microphone twice
+while you weren't looking" and "this app is allowed to use your microphone" is
+the entire value of the report, so the app must never blur the two.
+
+  Tier 0  Static inventory        no permission needed
+          Installed packages, requested vs. actually granted permissions,
+          install source (store vs. sideload), signing certificate digest,
+          target SDK, debuggable/backup flags, declared accessibility and
+          device-admin components, native libraries.
+          -> what each app *may* do.
+
+  Tier 1  Usage history           Usage access, granted in Settings
+          Per-app foreground time. On its own it says nothing about
+          permissions; its value is as the denominator for everything else.
+          ACTIVE_BUT_NEVER_OPENED refuses to fire without it, because 0ms of
+          foreground time with no collector attached means "unknown", not
+          "proven".
+
+  Tier 2  Access log              adb or Shizuku   <- the important one
+          The real per-app, per-operation access history with foreground/
+          background attribution. Two routes:
+            - `dumpsys appops` over a privileged shell (preferred: the output
+              is parsed by code that has unit tests against captured fixtures);
+            - the in-process AppOpsManager API after
+                adb shell pm grant dev.accessaudit.app \
+                    android.permission.GET_APP_OPS_STATS
+              which is faster but only exposes the *last* access per state, so
+              it cannot report true totals.
+
+  Tier 3  File-level audit        root only
+          SELinux `avc` records from the kernel audit log. This is the only
+          source that reports actual filesystem access - and it is mostly a
+          record of access that was *denied*, because that is what the kernel
+          finds interesting enough to log. It is not a complete I/O trace;
+          that needs a custom kernel with fanotify or eBPF. The UI labels it
+          accordingly rather than passing it off as a full read/write log.
+
+With only Tier 0 the report is a permission inventory, and the app says so on
+every screen instead of implying otherwise.
+
+What gets flagged, and why those rules
+--------------------------------------
+16 rules, each independent and individually tested. `--rules` lists them. The
+ones that carry the most weight:
+
+  ACCESSIBILITY_ABUSE     An accessibility service reads the text of every
+                          window and can inject taps. Combined with drawing
+                          over other apps it is the standard overlay-phishing
+                          toolkit, and the most abused mechanism in Android
+                          banking malware.
+  ALL_FILES_ACCESS        MANAGE_EXTERNAL_STORAGE defeats scoped storage
+                          entirely. CRITICAL on a sideloaded app.
+  SMS_INTERCEPTION        SMS read access plus network on an app that is not
+                          your messaging app - the account-takeover shape,
+                          since one-time passcodes arrive by SMS.
+  BG_SENSITIVE_ACCESS     Camera, microphone, screen capture or precise
+                          location used with no visible UI and no foreground
+                          service, so nothing on screen indicated it.
+  BG_DATA_HARVEST         Contacts, SMS or all-files access read in the
+                          background, which cannot be correlated with any user
+                          action.
+  ACTIVE_BUT_NEVER_OPENED Sensitive access by an app with essentially no
+                          foreground time in the window.
+  DYNAMIC_CODE            Loadable code in a directory the app can write to:
+                          behaviour that was never in the reviewed APK.
+  EXFIL_SHAPE             Sensitive reads actually *observed* on an app with
+                          network access. Fires on observation, not on
+                          permissions alone.
+
+Two design decisions matter more than the rule list:
+
+**Every finding carries its evidence.** A finding names the observation that
+produced it, so a developer can disagree with a rule and still trust the data.
+This is why the per-app screen shows the raw access table *above* the findings:
+the table is the evidence, the findings are one reading of it.
+
+**Scoring saturates instead of summing.** A plain sum lets a dozen cosmetic
+hygiene notes outrank one critical finding, which is exactly how tools like this
+end up ignored. Each additional finding counts half as much as the one before,
+so a run of findings at one severity converges on twice that severity's weight
+and can never reach the next severity up: 20 MEDIUM findings still score below a
+single HIGH. `RiskEngineTest` asserts that property directly.
+
+Related: a dangerous permission granted but never used is LOW, not HIGH. It is
+unnecessary attack surface, not evidence of misbehaviour, and scoring it higher
+would bury the real findings. Suppressions are keyed on package + rule, so
+accepting that your maps app uses background location does not also silence its
+SMS access.
+
+Output
+------
+    --format text     worst-first report with evidence (default)
+    --format json     full machine-readable report, schemaVersion 1
+    --format csv      one row per finding, for triage or diffing scans
+    --format matrix   one row per app per operation - the "which app used which
+                      access" table, sortable and pivotable
+    --package NAME    just that app's access table
+
+Exit codes: 0 nothing flagged, 1 usage/input error, 2 at least one app flagged
+(so it can gate CI).
+
+Layout
+------
+    core/    Analysis engine. Plain JVM, zero dependencies, all the logic worth
+             testing: the appops/dumpsys parsers, the operation catalogue, the
+             rules, the scoring, the report writers.
+    cli/     Host-side analyser for captures taken over adb, no app install.
+    app/     Android app: collectors, Room history, Compose UI, periodic scans.
+    tools/   adb-access-audit.sh - read-only device capture.
+    samples/ A synthetic capture covering a clean app, a store app with
+             background location, and a sideloaded app with the spyware shape.
+
+The split is the point: putting the engine in a plain JVM module is what makes
+the rules and parsers unit-testable without an emulator, and it means the
+on-device report and the host-side report come from identical logic - a rule
+cannot behave differently in the two paths.
+
+Privacy
+-------
+The app does not request android.permission.INTERNET, so nothing it collects can
+leave the device unless you export a report and share it deliberately. Backup
+and device-transfer are excluded for its database. Both are checkable in
+`app/src/main/AndroidManifest.xml`.
+
+Why periodic scans
+------------------
+The platform discards appop history after roughly a day. Anything not captured
+while it is still there is gone for good, so a WorkManager job captures every
+six hours and each scan is stored as a new row. That is what lets the app say
+"this app started doing this on Tuesday", which the platform's own 24-hour
+window cannot.
+
+Parser robustness
+-----------------
+`dumpsys appops` output is not a stable API: attribution tags appeared in
+Android 11, the flag vocabulary in the `[fg-s]`-style prefix has grown, and some
+builds print only a relative age while others also print an absolute timestamp.
+The parser is therefore lenient and stateful - it keys off the few line shapes
+that have stayed put, ignores indentation, and sends anything it does not
+recognise to `unparsedLines` rather than aborting. One new field cannot blank out
+a report. Timestamps prefer the relative age, which is timezone-proof.
+
+Known limits
+------------
+  - Tier 2 counts depend on the route: `dumpsys` gives real totals, the
+    in-process API gives only the last access per state.
+  - Kernel `avc` records carry monotonic uptime, not wall-clock. Rather than
+    inventing a timestamp, Tier 3 events are stored with none.
+  - Vendor builds sometimes restrict the shell user, in which case
+    `dumpsys appops` returns nothing and the capture script warns about it.
+  - The frequency-outlier rule compares against this device's own median, so it
+    needs a handful of apps using an operation before it means anything.
+  - Nothing here can see an app's network traffic, so EXFIL_SHAPE reports a
+    capability and an observation, never a confirmed upload. The wording says so.
