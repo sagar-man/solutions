@@ -1,0 +1,34 @@
+# Copy to config.yaml (git-ignored) and edit.
+
+# Where your confirmed master resume data lives.
+master_resume: profile/master_resume.yaml
+
+# Standard application answers (work authorisation, notice period, etc.)
+answers: profile/answers.yaml
+
+# Per-application working directories are created under here.
+workdir: applications
+
+linkedin:
+  # Chrome/Chromium profile directory reused so your existing LinkedIn login
+  # is picked up. The agent never handles your password.
+  #   macOS:   ~/Library/Application Support/Google/Chrome/Claude-JobApply
+  #   Linux:   ~/.config/google-chrome/Claude-JobApply
+  #   Windows: %LOCALAPPDATA%\Google\Chrome\User Data\Claude-JobApply
+  browser_profile: ~/.config/chromium/Claude-JobApply
+  # Visible browser. Keep true: you are supposed to watch and press Submit.
+  headless: false
+
+render:
+  # ATS parsers choke on anything fancy. These defaults are deliberately plain.
+  font: Helvetica
+  base_font_size: 10
+  page_margin_mm: 15
+  max_pages_warn: 2
+
+guard:
+  # verify_tailored.py fails the build if a tailored bullet introduces a
+  # number, metric, tech name or employer that is absent from the master resume.
+  fail_on_unverified_token: true
+  # Tokens that are fine to introduce (job-description vocabulary that is not a claim).
+  token_allowlist: []

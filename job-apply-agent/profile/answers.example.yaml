@@ -1,0 +1,28 @@
+# Standard application answers. apply.py fills a field only when it can match
+# the on-screen label to one of these keys with high confidence. Anything it
+# cannot match is written to needs_input.yaml and left blank for you.
+
+work_authorization: "Authorized to work in the US without sponsorship"
+requires_sponsorship: "No"
+willing_to_relocate: "Yes"
+remote_preference: "Hybrid or remote"
+notice_period: "4 weeks"
+earliest_start_date: "2026-11-15"
+desired_salary: ""            # left blank on purpose; fill if you want it auto-filled
+years_experience:
+  default: "8"
+  c++: "8"
+  python: "6"
+  kubernetes: "4"
+  go: "2"
+phone_country_code: "+1"
+website: "github.com/sagar-man"
+how_did_you_hear: "LinkedIn"
+gender: "Decline to self-identify"
+race_ethnicity: "Decline to self-identify"
+veteran_status: "Decline to self-identify"
+disability_status: "Decline to self-identify"
+
+# Never auto-filled, regardless of what is here:
+#   - anything the form marks as a signature or certification
+#   - free-text "why do you want to work here" (the agent drafts, you approve)

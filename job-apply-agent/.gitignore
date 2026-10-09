@@ -1,0 +1,8 @@
+config.yaml
+profile/master_resume.yaml
+profile/answers.yaml
+applications/*
+!applications/.gitkeep
+__pycache__/
+*.pyc
+.venv/

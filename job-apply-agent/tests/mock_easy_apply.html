@@ -1,0 +1,113 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Mock Easy Apply</title></head>
+<body>
+<h1>Mock posting</h1>
+<button class="jobs-apply-button" aria-label="Easy Apply to Staff Software Engineer">Easy Apply</button>
+
+<div role="dialog" class="jobs-easy-apply-modal" style="display:none">
+  <div id="step1">
+    <div class="fb-dash-form-element">
+      <label for="f-email">Email address</label>
+      <input id="f-email" type="email" value="you@example.com">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-phone">Mobile phone number</label>
+      <input id="f-phone" type="tel">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-cppyears">How many years of C++ experience do you have?</label>
+      <input id="f-cppyears" type="number">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-k8syears">How many years of Kubernetes experience do you have?</label>
+      <input id="f-k8syears" type="number">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-genyears">How many years of experience do you have overall?</label>
+      <input id="f-genyears" type="number">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-notice">What is your notice period?</label>
+      <input id="f-notice" type="text">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-salary">Desired salary</label>
+      <input id="f-salary" type="text">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-why">Why do you want to work here?</label>
+      <textarea id="f-why"></textarea>
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-favcolour">What is your favourite colour?</label>
+      <input id="f-favcolour" type="text">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-auth">Are you legally authorized to work in the United States?</label>
+      <select id="f-auth">
+        <option value="">Select an option</option>
+        <option value="y">Authorized to work in the US without sponsorship</option>
+        <option value="n">Not authorized</option>
+      </select>
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-hear">How did you hear about this job?</label>
+      <select id="f-hear">
+        <option value="">Select an option</option>
+        <option value="li">LinkedIn</option>
+        <option value="ref">Referral</option>
+      </select>
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-stack">Which stack do you prefer?</label>
+      <select id="f-stack">
+        <option value="">Select an option</option>
+        <option value="a">Frontend</option>
+        <option value="b">Backend</option>
+      </select>
+    </div>
+    <fieldset class="fb-dash-form-element">
+      <legend>Will you now or in the future require sponsorship?</legend>
+      <label for="f-sp-y">Yes</label><input id="f-sp-y" type="radio" name="sponsor" value="Yes">
+      <label for="f-sp-n">No</label><input id="f-sp-n" type="radio" name="sponsor" value="No">
+    </fieldset>
+    <fieldset class="fb-dash-form-element">
+      <legend>Are you willing to relocate?</legend>
+      <label for="f-rel-y">Yes</label><input id="f-rel-y" type="radio" name="relocate" value="Yes">
+      <label for="f-rel-n">No</label><input id="f-rel-n" type="radio" name="relocate" value="No">
+    </fieldset>
+    <div class="fb-dash-form-element">
+      <label for="f-resume">Upload resume</label>
+      <input id="f-resume" name="resume" type="file" accept="application/pdf,.doc,.docx">
+    </div>
+    <div class="fb-dash-form-element">
+      <label for="f-cover">Upload cover letter</label>
+      <input id="f-cover" name="coverLetter" type="file" accept="application/pdf">
+    </div>
+    <footer>
+      <button type="button" aria-label="Back to previous step">Back</button>
+      <button type="button" id="next" aria-label="Continue to next step">Next</button>
+    </footer>
+  </div>
+
+  <div id="step2" style="display:none">
+    <p>Review your application</p>
+    <footer>
+      <button type="button" aria-label="Submit application" id="submit">Submit application</button>
+    </footer>
+  </div>
+</div>
+
+<script>
+  document.querySelector(".jobs-apply-button").addEventListener("click", () => {
+    document.querySelector("div[role='dialog']").style.display = "block";
+  });
+  document.getElementById("next").addEventListener("click", () => {
+    document.getElementById("step1").style.display = "none";
+    document.getElementById("step2").style.display = "block";
+  });
+  document.getElementById("submit").addEventListener("click", () => {
+    document.body.setAttribute("data-submitted", "yes");
+  });
+</script>
+</body></html>

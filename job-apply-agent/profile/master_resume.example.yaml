@@ -1,0 +1,92 @@
+# MASTER RESUME — the single source of truth. Everything here must be TRUE.
+# The agent only ever selects, reorders and rewords what is in this file.
+# It is forbidden (and mechanically blocked) from inventing employers,
+# dates, titles, metrics or technologies that do not appear here.
+
+basics:
+  name: Sagar Manandhar
+  email: you@example.com
+  phone: "+1 555 010 0000"
+  location: Austin, TX
+  links:
+    linkedin: linkedin.com/in/your-handle
+    github: github.com/sagar-man
+  # Optional: longest-form summary. Variants let the agent pick an angle.
+
+summary_variants:
+  - id: sum-systems
+    angle: [c++, systems, performance]
+    text: >-
+      Systems engineer with 8 years building low-latency C++ services.
+      Owns performance work end to end, from lock contention in hot paths
+      to capacity planning for multi-tenant clusters.
+  - id: sum-platform
+    angle: [platform, distributed, backend]
+    text: >-
+      Backend engineer focused on distributed data platforms, with a track
+      record of taking services from prototype to multi-region production.
+
+skills:
+  - group: Languages
+    items: [C++17, C++20, Python, Go, SQL, Bash]
+  - group: Systems
+    items: [Linux, pthreads, lock-free data structures, gRPC, Protocol Buffers]
+  - group: Infrastructure
+    items: [Kubernetes, Docker, Terraform, AWS, Prometheus, Grafana]
+  - group: Practices
+    items: [TDD, code review, on-call ownership, design docs]
+
+experience:
+  - id: exp-acme
+    company: Acme Data Systems
+    title: Senior Software Engineer
+    location: Austin, TX
+    start: 2022-03
+    end: present
+    # Write MORE bullets here than fit on a page. The agent picks per job.
+    bullets:
+      - id: exp-acme-b1
+        text: Cut p99 read latency from 180 ms to 42 ms in a 40-node C++ storage tier by replacing a global mutex with a sharded lock-free index.
+        tags: [c++, performance, concurrency, distributed]
+      - id: exp-acme-b2
+        text: Led the migration of 12 services to gRPC and Protocol Buffers, removing 30% of inter-service payload size.
+        tags: [grpc, protobuf, migration, backend]
+      - id: exp-acme-b3
+        text: Built the team's load-testing harness in Python, now gating every release through 4 regression scenarios.
+        tags: [python, testing, tooling]
+      - id: exp-acme-b4
+        text: Mentored 3 engineers through their first on-call rotations and wrote the runbook the team still uses.
+        tags: [mentorship, on-call, leadership]
+
+  - id: exp-globex
+    company: Globex
+    title: Software Engineer
+    location: Remote
+    start: 2018-07
+    end: 2022-02
+    bullets:
+      - id: exp-globex-b1
+        text: Implemented an LRU cache layer in C++ that absorbed 70% of read traffic and removed the need for a planned database shard.
+        tags: [c++, caching, performance]
+      - id: exp-globex-b2
+        text: Automated the release pipeline with Terraform and GitHub Actions, taking deploys from weekly and manual to daily and push-button.
+        tags: [terraform, ci, infrastructure]
+
+projects:
+  - id: proj-lru
+    name: Thread-safe LRU cache
+    url: github.com/sagar-man/solutions
+    bullets:
+      - id: proj-lru-b1
+        text: O(1) get/put LRU cache in C++ with an intrusive list and hash index, plus a multithreaded unique-number generator demonstrating lock granularity trade-offs.
+        tags: [c++, concurrency, data structures]
+
+education:
+  - id: edu-1
+    school: Tribhuvan University
+    degree: BE, Computer Engineering
+    location: Kathmandu, Nepal
+    start: 2013
+    end: 2017
+
+certifications: []

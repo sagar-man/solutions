@@ -1,0 +1,10 @@
+# Core (offline pipeline: parse / analyse / render / verify)
+PyYAML>=6.0
+pypdf>=4.0
+pdfminer.six>=20231228
+reportlab>=4.0
+beautifulsoup4>=4.12
+requests>=2.31
+
+# Only needed for the LinkedIn-facing steps (fetch --via browser, apply)
+playwright>=1.44
