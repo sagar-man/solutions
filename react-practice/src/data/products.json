@@ -1,0 +1,74 @@
+[
+  {
+    "id": "kb-01",
+    "name": "Tactile 65 Mechanical Keyboard",
+    "category": "keyboard",
+    "price": 129,
+    "rating": 4.6,
+    "inStock": true,
+    "description": "A 65% hot-swappable board with tactile switches and a gasket-mounted plate."
+  },
+  {
+    "id": "kb-02",
+    "name": "Split Ergo Keyboard",
+    "category": "keyboard",
+    "price": 249,
+    "rating": 4.8,
+    "inStock": false,
+    "description": "Two halves, thumb clusters, and fully remappable layers for wrist-friendly typing."
+  },
+  {
+    "id": "ms-01",
+    "name": "Glide Wireless Mouse",
+    "category": "mouse",
+    "price": 79,
+    "rating": 4.3,
+    "inStock": true,
+    "description": "Lightweight 58g shell, 8K polling, and a 70-hour battery."
+  },
+  {
+    "id": "ms-02",
+    "name": "Trackball Pro",
+    "category": "mouse",
+    "price": 99,
+    "rating": 4.1,
+    "inStock": true,
+    "description": "Thumb-driven trackball that keeps your forearm still all day."
+  },
+  {
+    "id": "mn-01",
+    "name": "Studio 27 4K Monitor",
+    "category": "monitor",
+    "price": 549,
+    "rating": 4.7,
+    "inStock": true,
+    "description": "27-inch 4K IPS panel, 98% DCI-P3, single-cable USB-C docking."
+  },
+  {
+    "id": "mn-02",
+    "name": "Ultrawide 34 Curved",
+    "category": "monitor",
+    "price": 729,
+    "rating": 4.4,
+    "inStock": false,
+    "description": "3440x1440 at 144Hz with a gentle 1900R curve for split-screen work."
+  },
+  {
+    "id": "au-01",
+    "name": "Quiet Over-Ear Headphones",
+    "category": "audio",
+    "price": 299,
+    "rating": 4.9,
+    "inStock": true,
+    "description": "Adaptive noise cancelling with 30-hour playback and a USB-C DAC mode."
+  },
+  {
+    "id": "au-02",
+    "name": "Desk Condenser Mic",
+    "category": "audio",
+    "price": 149,
+    "rating": 4.2,
+    "inStock": true,
+    "description": "Cardioid condenser with onboard gain, mute key, and a shock mount."
+  }
+]
